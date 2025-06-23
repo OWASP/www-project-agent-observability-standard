@@ -410,6 +410,38 @@ Defines a single argument / input for the tool.
 | `id`  | `string`  | No      | The id of the argument. It is correlated with argument's id as specified in [`ToolArgumentDefinition`](#321-toolargumentdefinition-object)                                                                   |
 | `value`                              | `string`\| `number` \| `boolean` \| `object` \| `array` \| `null`                                                           | Yes      | The argument's value.                                                                                                           |
 
+### 3.16.  `A2AContext` Object
+Context for A2A requests and responses
+| Field Name | Type      | Required | Description                                                                                                  |
+| :--------- | :-------- | :------- | :----------------------------------------------------------------------------------------------------------- |
+| `from`     | [`A2AFullAgentContext`](#3161-a2adullagentcontext-object) \| [`A2APartialAgentContext`](#3162-a2apartialagentcontext-object) | Yes      | Details of the agent that is sending the A2A message (request or response). `A2AFullAgentContext` when observed agent is the client, `A2APartialAgentContext` when observed agent is the server.  |
+| `to`  | [`A2AFullAgentContext`](#3161-a2afullagentcontext-object) \| [`A2APartialAgentContext`](#3162-a2apartialagentcontext-object)  | Yes      | Details of the agent that is receiving the A2A message (request or response). `A2AFullAgentContext` when observed agent is the server, `A2APartialAgentContext` when observed agent is the client.                                                                    |
+
+#### 3.16.1.  `A2AFullAgentContext` Object
+Object representing the sender agent in the A2A protocol communication
+| Field Name | Type      | Required | Description                                                                                                  |
+| :--------- | :-------- | :------- | :----------------------------------------------------------------------------------------------------------- |
+| `agent`     | [`Agent`](#31-agent-object) | Yes      | Details of the agent that is sending the A2A message (either request or response).  |
+| `role`  | `"client"` \| `"server"` (literal)  | Yes      | Role of the agent as defined in A2A protocol terminology. `"client"` for agent that initializes tasks and requests, `"server"` for agent that fulfills tasks and requests.   
+
+
+#### 3.16.2.  `A2APartialAgentContext` Object
+Object representing the receiver agent in the A2A protocol communication
+
+| Field Name | Type      | Required | Description                                                                                                  |
+| :--------- | :-------- | :------- | :----------------------------------------------------------------------------------------------------------- |
+| `agent`     | [`A2APartialAgentDetails`](#3163-a2apartialagentdetails-object) | Yes      | Details of the agent that is receiving the A2A message (either request or response).  |
+| `role`  | `"client"` \| `"server"` (literal)  | Yes      | Role of the agent as defined in A2A protocol terminology. `"client"` for agent that initializes tasks and requests, `"server"` for agent that fulfills tasks and requests.   
+
+#### 3.16.3. `A2APartialAgentDetails` Object
+Object representing the receiver agent in the A2A protocol communication
+
+| Field Name | Type      | Required | Description                                                                                                  |
+| :--------- | :-------- | :------- | :----------------------------------------------------------------------------------------------------------- |
+| `url`     | `string` | Yes      | A URL to the address the receiving agent is hosted at as it appears in its [AgentCard](https://google-a2a.github.io/A2A/latest/specification/#55-agentcard-object-structure).  |
+| `name`  | `string` | Yes      | The name of the receiving agent as it appears in its AgentCard.   
+| `version`  |  `string`  | Yes      | The version of the receiving agent as it appeard in its AgentCard.   
+
 
 ## 4. Protocol RPC Methods
 All AOS RPC methods are invoked by the agent by sending an HTTP POST request to the guardian agent. The body of the HTTP POST request **MUST** be a `JSONRPCRequest` object, and the `Content-Type` header **MUST** be `application/json`.
@@ -571,8 +603,10 @@ This method is used by the agent to ensure that guardian agent is alive.
 
 ### 4.8. A2A Requests
 Every [A2A](https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/) protocol method (request) has its corresponding method in AOS. The structure of these methods are similar and comply with JRPC request structure.<br>
-These methods should be used before sending A2A message to a remote agent to monitor outbound communications.<br>
-Read more about A2A support in [extend_a2a](../instrument/extend_a2a.md).
+For client agent, these methods should be used before sending A2A request to a server (remote) agent to monitor outbound communications.<br>
+For server agent, these methods should be used before processing A2A request from client agent to monitor inbound communications.<br>
+Read more about A2A support in [extend_a2a](../instrument/a2a/extend_a2a.md).
+
 
 #### 4.8.1. A2A `Request` Object structure
 
@@ -582,6 +616,7 @@ Read more about A2A support in [extend_a2a](../instrument/extend_a2a.md).
 | `jsonrpc`                   |`"2.0"` (literal)| Yes       | JSON-RPC version string. |
 | `method`                   | `string` | Yes       | Method name. Same method name as found in `method` field in the A2A message. See [A2A supported methods](#482-a2a-supported-methods) for the full list. |
 | `payload`       | `object`                               | Yes      | A2A raw JSON message. |
+| `context`       | [`A2AContext`](#316-a2acontext-object)                                 | Yes      | The context of the current A2A message. |
 | `reasoning`       | `string`                               | No      | Agent's reasoning. |
 
 #### 4.8.2. A2A supported methods
@@ -598,10 +633,11 @@ Read more about A2A support in [extend_a2a](../instrument/extend_a2a.md).
 #### 4.8.4. **Response on failure**: [`JSONRPCErrorResponse`](#313-jsonrpcerrorresonse-object).
 
 ### 4.9. A2A Responses
-Every response of [A2A supported methods](#482-a2a-supported-methods) from remote agent has its corresponding AOS request.<br>
+Every response of [A2A supported methods](#482-a2a-supported-methods) from server agent has its corresponding AOS request.<br>
 
-These methods should be used after response is received from remote agent and before it reaches to the observed agent to monitor inbound communications.<br>
-Read more about A2A support in [extend_a2a](../instrument/extend_a2a.md).
+For client agents, these methods should be used before the response from the server agent is processed by the client observed agent to monitor inbound communications.<br>
+For server agents, these methods should be used before the response the response is sent back to the client agent to monitor outbound communications.<br>
+Read more about A2A support in [extend_a2a](../instrument/a2a/extend_a2a.md).
 
 #### 4.9.1. A2A `Request` Object structure
 
@@ -610,6 +646,7 @@ Read more about A2A support in [extend_a2a](../instrument/extend_a2a.md).
 | `id`                   | `string` \| `integer`  | Yes       | Unique id of the request. |
 | `jsonrpc`                   |`"2.0"` (literal)| Yes       | JSON-RPC version string. |
 | `method`                   | `string` | Yes       | Method name. Same method name as found in `method` field in the A2A original corresponding request message. See [A2A supported methods](#482-a2a-supported-methods) for the full list. |
+| `context`       | [`A2AContext`](#316-a2acontext-object)                                 | Yes      | The context of the current A2A message. |
 | `payload`       | `object`                               | Yes      | A2A raw JSON message (response). |
 
 

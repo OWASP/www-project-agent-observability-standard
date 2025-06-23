@@ -12,12 +12,12 @@ The supported hooks intervent the agent's workflow and interactions with the env
 | Memory | On memory store | [Details](#7-memory-store) | |
 | Knowledge | On knowledge retrieved | [Details](#6-knowledge-retrieval) | |
 | User | On agent response ready to send back to the user | [Details](#8-agent-response) | |
-| Other Agents | On task delegation to other agent |  | A2A([send](extend_a2a.md#1-send-message-request), [stream](extend_a2a.md#1-send-message-request))|
-| Other Agents | On task cancellation |  | [A2A](extend_a2a.md#3-cancel-task-request)|
-| Other Agents | On task details / status inquiry |  | [A2A](extend_a2a.md#4-get-task-request)|
-| Other Agents | On task notification config inquiry |  | [A2A](extend_a2a.md#5-get-task-push-notification-config-request)|
-| Other Agents | On task notification config update |  | [A2A](extend_a2a.md#6-set-task-push-notification-config-request)|
-| Other Agents | On task updates subscribe |  | [A2A](extend_a2a.md#7-resubscribe-to-task-request)|
+| Other Agents | On task delegation to other agent |  | A2A([send](a2a/hooks/send_message_request.md), [stream](a2a/hooks/stream_message_request.md))|
+| Other Agents | On task cancellation |  | [A2A](a2a/hooks/cancel_request.md)|
+| Other Agents | On task details / status inquiry |  | [A2A](a2a/hooks/get_task_request.md)|
+| Other Agents | On task notification config inquiry |  | [A2A](a2a/hooks/get_notification_config_request.md)|
+| Other Agents | On task notification config update |  | [A2A](a2a/hooks/set_notification_config_request.md)|
+| Other Agents | On task updates subscribe |  | [A2A](a2a/hooks/resubscribe_to_task_request.md)|
 
 
 ## 1. Agent Trigger
@@ -555,7 +555,7 @@ This hook is called when the agent communicate with remote MCP servers via MCP p
 This hook should be used **before** the agent sends MCP-compliant message to the remote MCP server. <br>
 
 ### 11.2. Method
-[`protocols/MCP`](specification.md#48-protocolsmcp)<br><br>
+[`protocols/MCP`](specification.md#410-protocolsmcp)<br><br>
 
 
 ### 11.3. Reponse
@@ -597,7 +597,7 @@ This hook is called when the agent received a message from MCP remote server. <b
 This hook should be used **before** the agent processes the MCP received message from the remote MCP server. <br>
 
 ### 12.2. Method
-[`protocols/MCP`](specification.md#48-protocolsmcp)<br><br>
+[`protocols/MCP`](specification.md#410-protocolsmcp)<br><br>
 
 
 ### 12.3. Reponse

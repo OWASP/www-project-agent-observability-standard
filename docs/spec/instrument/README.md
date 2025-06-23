@@ -25,7 +25,7 @@ It carries these protocols intact, allowing transparent adoption while providing
 | Standard | AOS Spec | Status |
 |--|--|--|
 | [MCP](https://modelcontextprotocol.io/introduction) | [AOS with MCP](./extend_mcp.md) | Working draft |
-| [A2A](https://google-a2a.github.io/A2A/) | [AOS with A2A](./extend_a2a.md) | Working draft |
+| [A2A](https://google-a2a.github.io/A2A/) | [AOS with A2A](./a2a/extend_a2a.md) | Working draft |
 
 ### Read Next
 
