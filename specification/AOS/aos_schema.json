@@ -4,7 +4,81 @@
     "description": "JSON Schema for Agent Observability Standard",
     "version": "0.1.0",
     "$defs": {
-        "A2AMessage": {
+        "A2AFullAgentContext":{
+            "type":"object",
+            "title":"From",
+            "properties":{
+                "agent": 
+                {
+                    "$ref":"#/$defs/Agent"
+                },
+                "role":{
+                    "type":"string",
+                    "title":"Agent Role",
+                    "enum":["client","server"]
+                }
+            }
+        },
+        "A2APartialAgentContext":{
+            "type":"object",
+            "title":"To",
+            "properties":{
+                "agent": {
+                    "$ref":"#/$defs/A2APartialAgentDetails"
+                },
+                "role":{
+                    "type":"string",
+                    "title":"Agent Role",
+                    "enum":["client","server"]
+                }
+            }
+        },
+        "A2APartialAgentDetails":{
+            "type":"object",
+            "title":"To",
+            "properties":{
+                "agent": {
+                    "url":{
+                        "type":"string",
+                        "title":"A URL to the address the agent is hosted at."
+                    },
+                    "name":{
+                        "type":"string",
+                        "title":"Agent Name"
+                    },
+                    "version":{
+                        "type":"string",
+                        "title":"Agent Version"
+                    }
+                }
+            }
+        },
+        "A2AContext":{
+            "type":"object",
+            "properties":{
+                "from":{
+                    "oneOf": [
+                        {
+                            "$ref":"#/$defs/A2AFullAgentContext"
+                        },
+                        {
+                            "$ref":"#/$defs/A2APartialAgentContext"
+                        }
+                    ]
+                },
+                "to":{
+                    "oneOf": [
+                        {
+                            "$ref":"#/$defs/A2APartialAgentContext"
+                        },
+                        {
+                            "$ref":"#/$defs/A2AFullAgentContext"
+                        }
+                    ]
+                }
+            }
+        },
+        "A2AMessageSend": {
             "properties": {
                 "jsonrpc": {
                     "const": "2.0",
@@ -24,26 +98,30 @@
                     "title": "Id"
                 },
                 "method": {
-                    "const": "protocols/A2A",
-                    "default": "protocols/A2A",
+                    "const": "message/send",
+                    "default": "message/send",
                     "title": "Method",
                     "type": "string"
                 },
                 "params": {
                     "type": "object",
                     "properties": {
-                        "message": {
+                        "payload": {
                             "additionalProperties": {},
-                            "title": "Data",
+                            "title": "Payload",
                             "type": "object",
                             "description": "The raw json message of A2A protocol"
+                        },
+                        "context": {
+                            "$ref": "#/$defs/A2AContext"
                         },
                         "reasoning": {
                             "type": "string",
                             "title": "Reasoning"
                         },
                         "required": [
-                            "message"
+                            "payload",
+                            "context"
                         ]
                     }
                 },
@@ -52,9 +130,344 @@
                     "params",
                     "id"
                 ],
-                "title": "A2AMessage",
-                "type": "object",
-                "description": "Method that captures the A2A protocol messages."
+                "title": "A2AMessageSend",
+                "type": "object"
+            }
+        },
+        "A2AMessageStream": {
+            "properties": {
+                "jsonrpc": {
+                    "const": "2.0",
+                    "default": "2.0",
+                    "title": "Jsonrpc",
+                    "type": "string"
+                },
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "title": "Id"
+                },
+                "method": {
+                    "const": "message/stream",
+                    "default": "message/stream",
+                    "title": "Method",
+                    "type": "string"
+                },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "payload": {
+                            "additionalProperties": {},
+                            "title": "Payload",
+                            "type": "object",
+                            "description": "The raw json message of A2A protocol"
+                        },
+                        "context": {
+                            "$ref": "#/$defs/A2AContext"
+                        },
+                        "reasoning": {
+                            "type": "string",
+                            "title": "Reasoning"
+                        },
+                        "required": [
+                            "payload",
+                            "context"
+                        ]
+                    }
+                },
+                "required": [
+                    "method",
+                    "params",
+                    "id"
+                ],
+                "title": "A2AMessageStream",
+                "type": "object"
+            }
+        },
+        "A2ATaskPushNotificationConfigSet": {
+            "properties": {
+                "jsonrpc": {
+                    "const": "2.0",
+                    "default": "2.0",
+                    "title": "Jsonrpc",
+                    "type": "string"
+                },
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "title": "Id"
+                },
+                "method": {
+                    "const": "task/pushNotificationConfig/set",
+                    "default": "task/pushNotificationConfig/set",
+                    "title": "Method",
+                    "type": "string"
+                },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "payload": {
+                            "additionalProperties": {},
+                            "title": "Payload",
+                            "type": "object",
+                            "description": "The raw json message of A2A protocol"
+                        },
+                        "context": {
+                            "$ref": "#/$defs/A2AContext"
+                        },
+                        "reasoning": {
+                            "type": "string",
+                            "title": "Reasoning"
+                        },
+                        "required": [
+                            "payload",
+                            "context"
+                        ]
+                    }
+                },
+                "required": [
+                    "method",
+                    "params",
+                    "id"
+                ],
+                "title": "A2ATaskPushNotificationConfigSet",
+                "type": "object"
+            }
+        },
+        "A2ATaskPushNotificationConfigGet": {
+            "properties": {
+                "jsonrpc": {
+                    "const": "2.0",
+                    "default": "2.0",
+                    "title": "Jsonrpc",
+                    "type": "string"
+                },
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "title": "Id"
+                },
+                "method": {
+                    "const": "task/pushNotificationConfig/get",
+                    "default": "task/pushNotificationConfig/get",
+                    "title": "Method",
+                    "type": "string"
+                },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "payload": {
+                            "additionalProperties": {},
+                            "title": "Payload",
+                            "type": "object",
+                            "description": "The raw json message of A2A protocol"
+                        },
+                        "context": {
+                            "$ref": "#/$defs/A2AContext"
+                        },
+                        "reasoning": {
+                            "type": "string",
+                            "title": "Reasoning"
+                        },
+                        "required": [
+                            "payload",
+                            "context"
+                        ]
+                    }
+                },
+                "required": [
+                    "method",
+                    "params",
+                    "id"
+                ],
+                "title": "A2ATaskPushNotificationConfigGet",
+                "type": "object"
+            }
+        },
+        "A2ATasksResubscribe": {
+            "properties": {
+                "jsonrpc": {
+                    "const": "2.0",
+                    "default": "2.0",
+                    "title": "Jsonrpc",
+                    "type": "string"
+                },
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "title": "Id"
+                },
+                "method": {
+                    "const": "tasks/resubscribe",
+                    "default": "tasks/resubscribe",
+                    "title": "Method",
+                    "type": "string"
+                },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "payload": {
+                            "additionalProperties": {},
+                            "title": "Payload",
+                            "type": "object",
+                            "description": "The raw json message of A2A protocol"
+                        },
+                        "context": {
+                            "$ref": "#/$defs/A2AContext"
+                        },
+                        "reasoning": {
+                            "type": "string",
+                            "title": "Reasoning"
+                        },
+                        "required": [
+                            "payload",
+                            "context"
+                        ]
+                    }
+                },
+                "required": [
+                    "method",
+                    "params",
+                    "id"
+                ],
+                "title": "A2ATasksResubscribe",
+                "type": "object"
+            }
+        },
+        "A2ATasksCancel": {
+            "properties": {
+                "jsonrpc": {
+                    "const": "2.0",
+                    "default": "2.0",
+                    "title": "Jsonrpc",
+                    "type": "string"
+                },
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "title": "Id"
+                },
+                "method": {
+                    "const": "tasks/cancel",
+                    "default": "tasks/cancel",
+                    "title": "Method",
+                    "type": "string"
+                },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "payload": {
+                            "additionalProperties": {},
+                            "title": "Payload",
+                            "type": "object",
+                            "description": "The raw json message of A2A protocol"
+                        },
+                        "context": {
+                            "$ref": "#/$defs/A2AContext"
+                        },
+                        "reasoning": {
+                            "type": "string",
+                            "title": "Reasoning"
+                        },
+                        "required": [
+                            "payload",
+                            "context"
+                        ]
+                    }
+                },
+                "required": [
+                    "method",
+                    "params",
+                    "id"
+                ],
+                "title": "A2ATasksCancel",
+                "type": "object"
+            }
+        },
+        "A2ATaskGet": {
+            "properties": {
+                "jsonrpc": {
+                    "const": "2.0",
+                    "default": "2.0",
+                    "title": "Jsonrpc",
+                    "type": "string"
+                },
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "title": "Id"
+                },
+                "method": {
+                    "const": "task/get",
+                    "default": "task/get",
+                    "title": "Method",
+                    "type": "string"
+                },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "payload": {
+                            "additionalProperties": {},
+                            "title": "Payload",
+                            "type": "object",
+                            "description": "The raw json message of A2A protocol"
+                        },
+                        "context": {
+                            "$ref": "#/$defs/A2AContext"
+                        },
+                        "reasoning": {
+                            "type": "string",
+                            "title": "Reasoning"
+                        },
+                        "required": [
+                            "payload",
+                            "context"
+                        ]
+                    }
+                },
+                "required": [
+                    "method",
+                    "params",
+                    "id"
+                ],
+                "title": "A2ATaskGet",
+                "type": "object"
             }
         },
         "Agent": {
@@ -68,6 +481,11 @@
                     "type": "string",
                     "title": "Name",
                     "description": "Name of the agent"
+                },
+                "url": {
+                    "type": "string",
+                    "title": "URL",
+                    "description": "A URL to the address the agent is hosted at."
                 },
                 "description": {
                     "type": "string",
@@ -127,6 +545,7 @@
             "required": [
                 "id",
                 "name",
+                "url",
                 "instructions",
                 "version",
                 "provider"
@@ -307,7 +726,25 @@
                     "$ref": "#/$defs/PingRequest"
                 },
                 {
-                    "$ref": "#/$defs/A2AMessage"
+                    "$ref": "#/$defs/A2AMessageSend"
+                },
+                {
+                    "$ref": "#/$defs/A2AMessageStream"
+                },
+                {
+                    "$ref": "#/$defs/A2ATaskPushNotificationConfigSet"
+                },
+                {
+                    "$ref": "#/$defs/A2ATaskPushNotificationConfigGet"
+                },
+                {
+                    "$ref": "#/$defs/A2ATasksResubscribe"
+                },
+                {
+                    "$ref": "#/$defs/A2ATasksCancel"
+                },
+                {
+                    "$ref": "#/$defs/A2ATaskGet"
                 },
                 {
                     "$ref": "#/$defs/MCPMessage"

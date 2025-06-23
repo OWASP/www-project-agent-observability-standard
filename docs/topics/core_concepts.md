@@ -53,7 +53,7 @@ The Guardian Agent enforces policies and enables tracing through the following:
 AOS works even better when MCP and A2A are part of an Agent's environment.
 It carries MCP and A2A intact, ensuring full compatibility and transparency.
 
-AOS also proposes security extensions for [MCP](../spec/instrument/extend_mcp.md) and [A2A](../spec/instrument/extend_a2a.md) for native observability support.
+AOS also proposes security extensions for [MCP](../spec/instrument/extend_mcp.md) and [A2A](../spec/instrument/a2a/extend_a2a.md) for native observability support.
 
 ## Read Next
 
