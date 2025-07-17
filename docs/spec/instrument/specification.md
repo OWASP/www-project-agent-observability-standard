@@ -179,8 +179,8 @@ It **MUST** be one of the following:
 For conveying plain textual content.
 
 
-| Field Name                          | Type                                                               | Required | Description                                                                                                                                 |
-| :---------------------------------- | :----------------------------------------------------------------- | :------- | :------------------------------------------------------------------------------------------------------------------------------------------ |
+| Field Name | Type                  | Required | Description                                   |
+| :--------- | :-------------------- | :------- | :-------------------------------------------- |
 | `kind`     | `"text"` (literal)    | Yes      | Identifies this part as textual content.      |
 | `text`     | `string`              | Yes      | The textual content of the part.              |
 | `metadata` | `Record<string, any>` | No       | Optional metadata specific to this text part. |
@@ -410,6 +410,38 @@ Defines a single argument / input for the tool.
 | `id`  | `string`  | No      | The id of the argument. It is correlated with argument's id as specified in [`ToolArgumentDefinition`](#321-toolargumentdefinition-object)                                                                   |
 | `value`                              | `string`\| `number` \| `boolean` \| `object` \| `array` \| `null`                                                           | Yes      | The argument's value.                                                                                                           |
 
+### 3.16.  `A2AContext` Object
+Context for A2A requests and responses
+| Field Name | Type      | Required | Description                                                                                                  |
+| :--------- | :-------- | :------- | :----------------------------------------------------------------------------------------------------------- |
+| `from`     | [`A2AFullAgentContext`](#3161-a2adullagentcontext-object) \| [`A2APartialAgentContext`](#3162-a2apartialagentcontext-object) | Yes      | Details of the agent that is sending the A2A message (request or response). `A2AFullAgentContext` when observed agent is the client, `A2APartialAgentContext` when observed agent is the server.  |
+| `to`  | [`A2AFullAgentContext`](#3161-a2afullagentcontext-object) \| [`A2APartialAgentContext`](#3162-a2apartialagentcontext-object)  | Yes      | Details of the agent that is receiving the A2A message (request or response). `A2AFullAgentContext` when observed agent is the server, `A2APartialAgentContext` when observed agent is the client.                                                                    |
+
+#### 3.16.1.  `A2AFullAgentContext` Object
+Object representing the sender agent in the A2A protocol communication
+| Field Name | Type      | Required | Description                                                                                                  |
+| :--------- | :-------- | :------- | :----------------------------------------------------------------------------------------------------------- |
+| `agent`     | [`Agent`](#31-agent-object) | Yes      | Details of the agent that is sending the A2A message (either request or response).  |
+| `role`  | `"client"` \| `"server"` (literal)  | Yes      | Role of the agent as defined in A2A protocol terminology. `"client"` for agent that initializes tasks and requests, `"server"` for agent that fulfills tasks and requests.   
+
+
+#### 3.16.2.  `A2APartialAgentContext` Object
+Object representing the receiver agent in the A2A protocol communication
+
+| Field Name | Type      | Required | Description                                                                                                  |
+| :--------- | :-------- | :------- | :----------------------------------------------------------------------------------------------------------- |
+| `agent`     | [`A2APartialAgentDetails`](#3163-a2apartialagentdetails-object) | Yes      | Details of the agent that is receiving the A2A message (either request or response).  |
+| `role`  | `"client"` \| `"server"` (literal)  | Yes      | Role of the agent as defined in A2A protocol terminology. `"client"` for agent that initializes tasks and requests, `"server"` for agent that fulfills tasks and requests.   
+
+#### 3.16.3. `A2APartialAgentDetails` Object
+Object representing the receiver agent in the A2A protocol communication
+
+| Field Name | Type      | Required | Description                                                                                                  |
+| :--------- | :-------- | :------- | :----------------------------------------------------------------------------------------------------------- |
+| `url`     | `string` | Yes      | A URL to the address the receiving agent is hosted at as it appears in its [AgentCard](https://google-a2a.github.io/A2A/latest/specification/#55-agentcard-object-structure).  |
+| `name`  | `string` | Yes      | The name of the receiving agent as it appears in its AgentCard.   
+| `version`  |  `string`  | Yes      | The version of the receiving agent as it appeard in its AgentCard.   
+
 
 ## 4. Protocol RPC Methods
 All AOS RPC methods are invoked by the agent by sending an HTTP POST request to the guardian agent. The body of the HTTP POST request **MUST** be a `JSONRPCRequest` object, and the `Content-Type` header **MUST** be `application/json`.
@@ -433,8 +465,8 @@ This method should be used after the agent's input is extracted from the trigger
 | `trigger` | [`AgentTrigger`](#36-agenttrigger-object) | Yes       | The trigger that activated the agent.                        |
 
 
-#### 4.1.2. **Response on success**: [`AOSSuccessResponse`](#51-aossuccessresponse-object).
-#### 4.1.3. **Response on failure**: [`JSONRPCErrorResponse`](#52-jsonrpcerrorresonse-object).
+#### 4.1.2. **Response on success**: [`AOSSuccessResponse`](#51-AOSSuccessResponse-object).
+#### 4.1.3. **Response on failure**: [`JSONRPCErrorResponse`](#313-jsonrpcerrorresonse-object).
 
 
 ### 4.2. steps/knowledgeRetrieval
@@ -453,8 +485,8 @@ There are many retrieval techniques including semantic search (embedding-based s
 | `reasoning`       | `string`                               | No      | Agent's reasoning. |
 
 
-#### 4.2.2. **Response on success**: [`AOSSuccessResponse`](#51-aossuccessresponse-object).
-#### 4.2.3. **Response on failure**: [`JSONRPCErrorResponse`](#52-jsonrpcerrorresonse-object).
+#### 4.2.2. **Response on success**: [`AOSSuccessResponse`](#51-AOSsuccessresponse-object).
+#### 4.2.3. **Response on failure**: [`JSONRPCErrorResponse`](#313-jsonrpcerrorresonse-object).
 
 ### 4.3. steps/memoryStore
 This step refers to the process of memorizing and store memory to the memory store for additional context for future or current agent interactions.<br>
@@ -469,8 +501,8 @@ Mostly, interaction history or a summary is stored to the memory store.
 | `reasoning`       | `string`                               | No      | Agent's reasoning. |
 
 
-#### 4.3.2. **Response on success**: [`AOSSuccessResponse`](#51-aossuccessresponse-object).
-#### 4.3.3. **Response on failure**: [`JSONRPCErrorResponse`](#52-jsonrpcerrorresonse-object).
+#### 4.3.2. **Response on success**: [`AOSSuccessResponse`](#51-AOSsuccessresponse-object).
+#### 4.3.3. **Response on failure**: [`JSONRPCErrorResponse`](#313-jsonrpcerrorresonse-object).
 
 
 ### 4.4. steps/memoryContextRetrieval
@@ -487,8 +519,8 @@ This context is passed alongside with the agent's instructions(system prompt), u
 | `reasoning`       | `string`                               | No      | Agent's reasoning. |
 
 
-#### 4.4.2. **Response on success**: [`AOSSuccessResponse`](#51-aossuccessresponse-object).
-#### 4.4.3. **Response on failure**: [`JSONRPCErrorResponse`](#52-jsonrpcerrorresonse-object).
+#### 4.4.2. **Response on success**: [`AOSSuccessResponse`](#51-AOSsuccessresponse-object).
+#### 4.4.3. **Response on failure**: [`JSONRPCErrorResponse`](#313-jsonrpcerrorresonse-object).
 
 
 ### 4.5. steps/message
@@ -508,8 +540,8 @@ A message with `system` role represents a message from the system, such as guard
 | `reasoning`       | `string`                               | No      | Agent's reasoning. Should be used with `agent` or `system` message. |
 
 
-#### 4.5.2. **Response on success**: [`AOSSuccessResponse`](#51-aossuccessresponse-object).
-#### 4.5.3. **Response on failure**: [`JSONRPCErrorResponse`](#52-jsonrpcerrorresonse-object).
+#### 4.5.2. **Response on success**: [`AOSSuccessResponse`](#51-AOSsuccessresponse-object).
+#### 4.5.3. **Response on failure**: [`JSONRPCErrorResponse`](#313-jsonrpcerrorresonse-object).
 
 
 ### 4.6. steps/toolCallRequest
@@ -527,8 +559,8 @@ This method should be used after tool inputs are inferred by the LLM and before 
 
 
 
-#### 4.5.2. **Response on success**: [`AOSSuccessResponse`](#51-aossuccessresponse-object).
-#### 4.5.3. **Response on failure**: [`JSONRPCErrorResponse`](#52-jsonrpcerrorresonse-object).
+#### 4.5.2. **Response on success**: [`AOSSuccessResponse`](#51-AOSsuccessresponse-object).
+#### 4.5.3. **Response on failure**: [`JSONRPCErrorResponse`](#313-jsonrpcerrorresonse-object).
 
 ### 4.6. steps/toolCallResult
 This method should be used after tool is completed and before the result goes back into the LLM for further processing.
@@ -550,51 +582,14 @@ This method should be used after tool is completed and before the result goes ba
 | `isError` |`boolean`| Yes       | Whether tool completed successfully or resulted in an error.                       |
 
 
-#### 4.6.2. **Response on success**: [`AOSSuccessResponse`](#51-aossuccessresponse-object).
-#### 4.6.3. **Response on failure**: [`JSONRPCErrorResponse`](#52-jsonrpcerrorresonse-object).
+#### 4.6.2. **Response on success**: [`AOSSuccessResponse`](#51-AOSsuccessresponse-object).
+#### 4.6.3. **Response on failure**: [`JSONRPCErrorResponse`](#313-jsonrpcerrorresonse-object).
 
-
-### 4.7. protocols/A2A
-This method should be used to wrap all [A2A](https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/) communications and messages.<br>
-This method should be used before sending A2A message to a remote agent to monitor outbound communications.<br>
-This method should be used after receiving A2A message (response) from a remote agent to monitor inbound communications.<br>
-Read more about A2A support in [extend_a2a](../instrument/extend_a2a.md).
-
-
-#### 4.7.1. **Request `params` Object**
-
-
-| Field Name      | Type                                                            | Required | Description                                                        |
-| :-------------- | :-------------------------------------------------------------- | :------- | :----------------------------------------------------------------- |
-| `message`       | `object`                               | Yes      | A2A-compliant message. |
-| `reasoning`       | `string`                               | No      | Agent's reasoning. |
-
-#### 4.7.2. **Response on success**: [`AOSSuccessResponse`](#51-aossuccessresponse-object).
-#### 4.7.3. **Response on failure**: [`JSONRPCErrorResponse`](#52-jsonrpcerrorresonse-object).
-
-### 4.8. protocols/MCP
-This method should be used to wrap all [MCP](https://modelcontextprotocol.io/introduction) communications and messages.<br>
-This method should be used before sending MCP message to MCP server to monitor outbound communications.<br>
-This method should be used after receiving MCP message (response) from a MCP server to monitor inbound communications.<br>
-Read more about MCP support in [extend_mcp](../instrument/extend_mcp.md).
-
-
-#### 4.8.1. **Request `params` Object**
-
-
-| Field Name      | Type                                                            | Required | Description                                                        |
-| :-------------- | :-------------------------------------------------------------- | :------- | :----------------------------------------------------------------- |
-| `message`       | `object`                               | Yes      | MCP-compliant message. |
-| `reasoning`       | `string`                               | No      | Agent's reasoning. |
-
-#### 4.8.2. **Response on success**: [`AOSSuccessResponse`](#51-aossuccessresponse-object).
-#### 4.8.3. **Response on failure**: [`JSONRPCErrorResponse`](#52-jsonrpcerrorresonse-object).
-
-### 4.9. ping
+### 4.7. ping
 This method is used by the agent to ensure that guardian agent is alive.
 
 
-#### 4.9.1. **Request `params` Object**
+#### 4.7.1. **Request `params` Object**
 
 
 | Field Name      | Type                                                            | Required | Description                                                        |
@@ -603,8 +598,80 @@ This method is used by the agent to ensure that guardian agent is alive.
 | `timeout`                   | `integer`| No       | Timeout in milliseconds after which the communication with guardian agent is considered to be lost. |
 | `metadata`                   | `Record<string, any>` | No       | Arbitrary key-value metadata associated with the agent. |
 
-#### 4.9.2. **Response on success**: [`PingRequestSuccessResponse`](#53-pingrequestsuccessresponse-object).
-#### 4.9.3. **Response on failure**: [`JSONRPCErrorResponse`](#52-jsonrpcerrorresonse-object).
+#### 4.7.2. **Response on success**: [`PingRequestSuccessResponse`](#53-pingrequestsuccessresponse-object).
+#### 4.7.3. **Response on failure**: [`JSONRPCErrorResponse`](#313-jsonrpcerrorresonse-object).
+
+### 4.8. A2A Requests
+Every [A2A](https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/) protocol method (request) has its corresponding method in AOS. The structure of these methods are similar and comply with JRPC request structure.<br>
+For client agent, these methods should be used before sending A2A request to a server (remote) agent to monitor outbound communications.<br>
+For server agent, these methods should be used before processing A2A request from client agent to monitor inbound communications.<br>
+Read more about A2A support in [extend_a2a](../instrument/a2a/extend_a2a.md).
+
+
+#### 4.8.1. A2A `Request` Object structure
+
+| Field Name      | Type                                                            | Required | Description                                                        |
+| :-------------- | :-------------------------------------------------------------- | :------- | :----------------------------------------------------------------- |
+| `id`                   | `string` \| `integer`  | Yes       | Unique id of the request. |
+| `jsonrpc`                   |`"2.0"` (literal)| Yes       | JSON-RPC version string. |
+| `method`                   | `string` | Yes       | Method name. Same method name as found in `method` field in the A2A message. See [A2A supported methods](#482-a2a-supported-methods) for the full list. |
+| `payload`       | `object`                               | Yes      | A2A raw JSON message. |
+| `context`       | [`A2AContext`](#316-a2acontext-object)                                 | Yes      | The context of the current A2A message. |
+| `reasoning`       | `string`                               | No      | Agent's reasoning. |
+
+#### 4.8.2. A2A supported methods
+- `message/send`
+- `message/stream`
+- `tasks/pushNotificationConfig/set`
+- `tasks/pushNotificationConfig/get`
+- `tasks/resubscribe`
+- `tasks/cancel`
+- `tasks/get`
+
+
+#### 4.8.3. **Response on success**: [`AOSSuccessResponse`](#51-AOSsuccessresponse-object).
+#### 4.8.4. **Response on failure**: [`JSONRPCErrorResponse`](#313-jsonrpcerrorresonse-object).
+
+### 4.9. A2A Responses
+Every response of [A2A supported methods](#482-a2a-supported-methods) from server agent has its corresponding AOS request.<br>
+
+For client agents, these methods should be used before the response from the server agent is processed by the client observed agent to monitor inbound communications.<br>
+For server agents, these methods should be used before the response the response is sent back to the client agent to monitor outbound communications.<br>
+Read more about A2A support in [extend_a2a](../instrument/a2a/extend_a2a.md).
+
+#### 4.9.1. A2A `Request` Object structure
+
+| Field Name      | Type                                                            | Required | Description                                                        |
+| :-------------- | :-------------------------------------------------------------- | :------- | :----------------------------------------------------------------- |
+| `id`                   | `string` \| `integer`  | Yes       | Unique id of the request. |
+| `jsonrpc`                   |`"2.0"` (literal)| Yes       | JSON-RPC version string. |
+| `method`                   | `string` | Yes       | Method name. Same method name as found in `method` field in the A2A original corresponding request message. See [A2A supported methods](#482-a2a-supported-methods) for the full list. |
+| `context`       | [`A2AContext`](#316-a2acontext-object)                                 | Yes      | The context of the current A2A message. |
+| `payload`       | `object`                               | Yes      | A2A raw JSON message (response). |
+
+
+#### 4.9.2. **Response on success**: [`AOSSuccessResponse`](#51-AOSsuccessresponse-object).
+#### 4.9.3. **Response on failure**: [`JSONRPCErrorResponse`](#313-jsonrpcerrorresonse-object).
+
+
+### 4.10. protocols/MCP
+This method should be used to wrap all [MCP](https://modelcontextprotocol.io/introduction) communications and messages.<br>
+This method should be used before sending MCP message to MCP server to monitor outbound communications.<br>
+This method should be used after receiving MCP message (response) from a MCP server to monitor inbound communications.<br>
+Read more about MCP support in [extend_mcp](../instrument/extend_mcp.md).
+
+
+#### 4.10.1. **Request `params` Object**
+
+
+| Field Name      | Type                                                            | Required | Description                                                        |
+| :-------------- | :-------------------------------------------------------------- | :------- | :----------------------------------------------------------------- |
+| `message`       | `object`                               | Yes      | MCP-compliant message. |
+| `reasoning`       | `string`                               | No      | Agent's reasoning. |
+
+#### 4.10.2. **Response on success**: [`AOSSuccessResponse`](#51-AOSsuccessresponse-object).
+#### 4.10.3. **Response on failure**: [`JSONRPCErrorResponse`](#313-jsonrpcerrorresonse-object).
+
 
 ## 5. Responses
 
@@ -613,7 +680,7 @@ This method is used by the agent to ensure that guardian agent is alive.
 | :-------------- | :-------------------------------------------------------------- | :------- | :----------------------------------------------------------------- |
 | `id`                   | `string` \| `integer`  | Yes       | Same id as the id in the correlated request. |
 | `jsonrpc`                   |`"2.0"` (literal)| Yes       | JSON-RPC version string. |
-| `result`                   |[`AOSSuccessResult`](#511-aossuccessresult-object)| Yes       | Success result. |
+| `result`                   |[`AOSSuccessResult`](#511-AOSsuccessresult-object)| Yes       | Success result. |
 
 #### 5.1.1. `AOSSuccessResult` Object
 
