@@ -885,10 +885,10 @@
                 "file": {
                     "anyOf": [
                         {
-                            "$ref": "#/definitions/FileWithBytes"
+                            "$ref": "#/$defs/FileWithBytes"
                         },
                         {
-                            "$ref": "#/definitions/FileWithUri"
+                            "$ref": "#/$defs/FileWithUri"
                         }
                     ],
                     "description": "File content either as url or bytes"
@@ -1170,22 +1170,22 @@
                 "error": {
                     "anyOf": [
                         {
-                            "$ref": "#/definitions/JSONRPCError"
+                            "$ref": "#/$defs/JSONRPCError"
                         },
                         {
-                            "$ref": "#/definitions/JSONParseError"
+                            "$ref": "#/$defs/JSONParseError"
                         },
                         {
-                            "$ref": "#/definitions/InvalidRequestError"
+                            "$ref": "#/$defs/InvalidRequestError"
                         },
                         {
-                            "$ref": "#/definitions/MethodNotFoundError"
+                            "$ref": "#/$defs/MethodNotFoundError"
                         },
                         {
-                            "$ref": "#/definitions/InvalidParamsError"
+                            "$ref": "#/$defs/InvalidParamsError"
                         },
                         {
-                            "$ref": "#/definitions/InternalError"
+                            "$ref": "#/$defs/InternalError"
                         }
                     ]
                 },
