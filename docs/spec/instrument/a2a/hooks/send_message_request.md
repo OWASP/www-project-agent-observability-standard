@@ -81,8 +81,8 @@ The response is an [`AOSSuccessResponse`](specification.md#51-aossuccessresponse
                                     "kid": "agent-key-12345",
                                     "alg": "RS256"
                                 },
-                                "protected": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImFnZW50LWtleS0xMjM0NSJ9",
-                                "signature": "hJtXIZ2uSN5kbQfbtTNWbp5A0L9FZo1zq08ne-XY2_Ij8jWQkQxCWuAZN3dLr9YkO6cP5n2hY7pQ6D3ZdH9L3JzGb9rQlXyUpz7U8pF8xKXucE2kM5mO-lHT5Fnjz9Z8"
+                                "protected": "eyJuYW1lIjoiQ29va2luZyBhc3Npc3RhbnQiLCJwcm92aWRlciI6eyJuYW1lIjoiT3BlbkFJIiwidXJsIjoiaHR0cHM6Ly9vcGVuYWkuY29tIn0sInVybCI6Imh0dHBzOi8vY29va2luZy1hc3Npc3RhbnQub3BlbmFpLmNvbS9hcGkvdjEiLCJ2ZXJzaW9uIjoiMS4wLjAifQ",
+                                "signature": "SVTs6pMuMD0fWfHTyEFGtRWHkt1MjFegctKkuVJF0iyNahOU51Dh1Lc_Dz8P18OsMszW0et7q7mcm9aORhLopQ"
                             }]
                         }
                     },
@@ -99,8 +99,8 @@ The response is an [`AOSSuccessResponse`](specification.md#51-aossuccessresponse
                                     "alg": "ES256",
                                     "kid": "agent-key-789"
                                 },
-                                "protected": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im1hY2hpbmUtaWRlbnRpdHkta2V5LTc4OSJ9",
-                                "signature": "MEUCIQD1ZT2VwBZ2BbnRrNQkzksYoP2KsbO8GqLxQ3-BUQqFdgIgOR9XhyXUsYMBk0yPyeyG_0Sl4vw4H8K9uN2f6nlm4LU"
+                                "protected": "eyJuYW1lIjoiQ2FrZSBCYWtlciIsInByb3ZpZGVyIjp7Im5hbWUiOiJBenVyZUFJRm91bmRyeSIsInVybCI6Imh0dHBzOi8vYWkuYXp1cmUuY29tIn0sInVybCI6Imh0dHBzOi8vYXBpLmNha2ViYWtlci5jb20vdjEiLCJ2ZXJzaW9uIjoiMS4wLjAifQ",
+                                "signature": "5oWZfnfwGyz43fPq-9VnCHF0h8KNdxeX3hNfDKcjB5bfm0hqojgsORfoNidXWyJlAi94JuyKPfcNirfdP5jGeg"
                             }]
                         }
                     },
@@ -188,8 +188,8 @@ The response is an [`AOSSuccessResponse`](specification.md#51-aossuccessresponse
                                     "kid": "agent-key-12345",
                                     "alg": "RS256"
                                 },
-                                "protected": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImFnZW50LWtleS0xMjM0NSJ9",
-                                "signature": "hJtXIZ2uSN5kbQfbtTNWbp5A0L9FZo1zq08ne-XY2_Ij8jWQkQxCWuAZN3dLr9YkO6cP5n2hY7pQ6D3ZdH9L3JzGb9rQlXyUpz7U8pF8xKXucE2kM5mO-lHT5Fnjz9Z8"
+                                "protected": "eyJuYW1lIjoiQ29va2luZyBhc3Npc3RhbnQiLCJwcm92aWRlciI6eyJuYW1lIjoiT3BlbkFJIiwidXJsIjoiaHR0cHM6Ly9vcGVuYWkuY29tIn0sInVybCI6Imh0dHBzOi8vY29va2luZy1hc3Npc3RhbnQub3BlbmFpLmNvbS9hcGkvdjEiLCJ2ZXJzaW9uIjoiMS4wLjAifQ",
+                                "signature": "SVTs6pMuMD0fWfHTyEFGtRWHkt1MjFegctKkuVJF0iyNahOU51Dh1Lc_Dz8P18OsMszW0et7q7mcm9aORhLopQ"
                             }]
                         }
                     },
@@ -197,7 +197,7 @@ The response is an [`AOSSuccessResponse`](specification.md#51-aossuccessresponse
                 },
                 "to": {
                     "agent": {
-                        "name": "Cake Bake",
+                        "name": "Cake Baker",
                         "url": "https://api.cakebaker.com/v1",
                         "instructions": "You are a helpful assistant that specializies in answering questions and tasks related to cake baking.",
                         "version": "1.0.0",
@@ -211,8 +211,8 @@ The response is an [`AOSSuccessResponse`](specification.md#51-aossuccessresponse
                                     "alg": "ES256",
                                     "kid": "agent-key-789"
                                 },
-                                "protected": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im1hY2hpbmUtaWRlbnRpdHkta2V5LTc4OSJ9",
-                                "signature": "MEUCIQD1ZT2VwBZ2BbnRrNQkzksYoP2KsbO8GqLxQ3-BUQqFdgIgOR9XhyXUsYMBk0yPyeyG_0Sl4vw4H8K9uN2f6nlm4LU"
+                                "protected": "eyJuYW1lIjoiQ2FrZSBCYWtlciIsInByb3ZpZGVyIjp7Im5hbWUiOiJBenVyZUFJRm91bmRyeSIsInVybCI6Imh0dHBzOi8vYWkuYXp1cmUuY29tIn0sInVybCI6Imh0dHBzOi8vYXBpLmNha2ViYWtlci5jb20vdjEiLCJ2ZXJzaW9uIjoiMS4wLjAifQ",
+                                "signature": "5oWZfnfwGyz43fPq-9VnCHF0h8KNdxeX3hNfDKcjB5bfm0hqojgsORfoNidXWyJlAi94JuyKPfcNirfdP5jGeg"
                             }]
                         }
                     },
