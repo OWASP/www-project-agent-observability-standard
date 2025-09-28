@@ -52,6 +52,16 @@ The response is an [`AOSSuccessResponse`](specification.md#51-aossuccessresponse
                     "provider": {
                         "name": "OpenAI",
                         "url": "https://openai.com"
+                    },
+                    "identity": {
+                        "signatures": [{
+                            "header": {
+                                "kid": "agent-key-12345",
+                                "alg": "RS256"
+                            },
+                            "protected": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImFnZW50LWtleS0xMjM0NSJ9",
+                            "signature": "hJtXIZ2uSN5kbQfbtTNWbp5A0L9FZo1zq08ne-XY2_Ij8jWQkQxCWuAZN3dLr9YkO6cP5n2hY7pQ6D3ZdH9L3JzGb9rQlXyUpz7U8pF8xKXucE2kM5mO-lHT5Fnjz9Z8"
+                        }]
                     }
                 },
                 "role": "client"
@@ -60,7 +70,17 @@ The response is an [`AOSSuccessResponse`](specification.md#51-aossuccessresponse
                 "agent": {
                     "url": "https://api.story.com/v1",
                     "name": "Story teller",
-                    "version": "1.0.0"
+                    "version": "1.0.0",
+                    "identity": {
+                        "signatures": [{
+                            "header": {
+                                "alg": "ES256",
+                                "kid": "agent-key-789"
+                            },
+                            "protected": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im1hY2hpbmUtaWRlbnRpdHkta2V5LTc4OSJ9",
+                            "signature": "MEUCIQD1ZT2VwBZ2BbnRrNQkzksYoP2KsbO8GqLxQ3-BUQqFdgIgOR9XhyXUsYMBk0yPyeyG_0Sl4vw4H8K9uN2f6nlm4LU"
+                        }]
+                    }
                 },
                 "role": "server"
             }
@@ -119,6 +139,16 @@ The response is an [`AOSSuccessResponse`](specification.md#51-aossuccessresponse
                     "name": "Content generator",
                     "url": "https://cooking-assistant.openai.com/api/v1",
                     "version": "1.0.0",
+                    "identity": {
+                        "signatures": [{
+                            "header": {
+                                "kid": "agent-key-12345",
+                                "alg": "RS256"
+                            },
+                            "protected": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImFnZW50LWtleS0xMjM0NSJ9",
+                            "signature": "hJtXIZ2uSN5kbQfbtTNWbp5A0L9FZo1zq08ne-XY2_Ij8jWQkQxCWuAZN3dLr9YkO6cP5n2hY7pQ6D3ZdH9L3JzGb9rQlXyUpz7U8pF8xKXucE2kM5mO-lHT5Fnjz9Z8"
+                        }]
+                    }
                 },
                 "role": "client"
             },
@@ -131,7 +161,17 @@ The response is an [`AOSSuccessResponse`](specification.md#51-aossuccessresponse
                         "name": "AzureAIFoundry",
                         "url": "https://ai.azure.com"
                     },
-                    "version": "1.0.0"
+                    "version": "1.0.0",
+                    "identity": {
+                        "signatures": [{
+                            "header": {
+                                "alg": "ES256",
+                                "kid": "agent-key-789"
+                            },
+                            "protected": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im1hY2hpbmUtaWRlbnRpdHkta2V5LTc4OSJ9",
+                            "signature": "MEUCIQD1ZT2VwBZ2BbnRrNQkzksYoP2KsbO8GqLxQ3-BUQqFdgIgOR9XhyXUsYMBk0yPyeyG_0Sl4vw4H8K9uN2f6nlm4LU"
+                        }]
+                    }
                 },
                 "role": "server"
             }
