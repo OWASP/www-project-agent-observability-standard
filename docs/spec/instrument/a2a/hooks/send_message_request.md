@@ -74,6 +74,16 @@ The response is an [`AOSSuccessResponse`](specification.md#51-aossuccessresponse
                         "provider": {
                             "name": "OpenAI",
                             "url": "https://openai.com"
+                        },
+                        "identity": {
+                            "signatures": [{
+                                "header": {
+                                    "kid": "agent-key-12345",
+                                    "alg": "RS256"
+                                },
+                                "protected": "eyJuYW1lIjoiQ29va2luZyBhc3Npc3RhbnQiLCJwcm92aWRlciI6eyJuYW1lIjoiT3BlbkFJIiwidXJsIjoiaHR0cHM6Ly9vcGVuYWkuY29tIn0sInVybCI6Imh0dHBzOi8vY29va2luZy1hc3Npc3RhbnQub3BlbmFpLmNvbS9hcGkvdjEiLCJ2ZXJzaW9uIjoiMS4wLjAifQ",
+                                "signature": "SVTs6pMuMD0fWfHTyEFGtRWHkt1MjFegctKkuVJF0iyNahOU51Dh1Lc_Dz8P18OsMszW0et7q7mcm9aORhLopQ"
+                            }]
                         }
                     },
                     "role": "client"
@@ -82,7 +92,17 @@ The response is an [`AOSSuccessResponse`](specification.md#51-aossuccessresponse
                     "agent": {
                         "url": "https://api.cakebaker.com/v1",
                         "name": "Cake Baker",
-                        "version": "1.0.0"
+                        "version": "1.0.0",
+                        "identity": {
+                            "signatures": [{
+                                "header": {
+                                    "alg": "ES256",
+                                    "kid": "agent-key-789"
+                                },
+                                "protected": "eyJuYW1lIjoiQ2FrZSBCYWtlciIsInByb3ZpZGVyIjp7Im5hbWUiOiJBenVyZUFJRm91bmRyeSIsInVybCI6Imh0dHBzOi8vYWkuYXp1cmUuY29tIn0sInVybCI6Imh0dHBzOi8vYXBpLmNha2ViYWtlci5jb20vdjEiLCJ2ZXJzaW9uIjoiMS4wLjAifQ",
+                                "signature": "5oWZfnfwGyz43fPq-9VnCHF0h8KNdxeX3hNfDKcjB5bfm0hqojgsORfoNidXWyJlAi94JuyKPfcNirfdP5jGeg"
+                            }]
+                        }
                     },
                     "role": "server"
                 }
@@ -161,19 +181,39 @@ The response is an [`AOSSuccessResponse`](specification.md#51-aossuccessresponse
                     "agent": {
                         "url": "https://cooking-assistant.openai.com/api/v1",
                         "name": "Cooking assistant",
-                        "version": "1.0.0"
+                        "version": "1.0.0",
+                        "identity": {
+                            "signatures": [{
+                                "header": {
+                                    "kid": "agent-key-12345",
+                                    "alg": "RS256"
+                                },
+                                "protected": "eyJuYW1lIjoiQ29va2luZyBhc3Npc3RhbnQiLCJwcm92aWRlciI6eyJuYW1lIjoiT3BlbkFJIiwidXJsIjoiaHR0cHM6Ly9vcGVuYWkuY29tIn0sInVybCI6Imh0dHBzOi8vY29va2luZy1hc3Npc3RhbnQub3BlbmFpLmNvbS9hcGkvdjEiLCJ2ZXJzaW9uIjoiMS4wLjAifQ",
+                                "signature": "SVTs6pMuMD0fWfHTyEFGtRWHkt1MjFegctKkuVJF0iyNahOU51Dh1Lc_Dz8P18OsMszW0et7q7mcm9aORhLopQ"
+                            }]
+                        }
                     },
                     "role": "client"
                 },
                 "to": {
                     "agent": {
-                        "name": "Cake Bake",
+                        "name": "Cake Baker",
                         "url": "https://api.cakebaker.com/v1",
                         "instructions": "You are a helpful assistant that specializies in answering questions and tasks related to cake baking.",
                         "version": "1.0.0",
                         "provider": {
                             "name": "AzureAIFoundry",
                             "url": "https://ai.azure.com"
+                        },
+                        "identity": {
+                            "signatures": [{
+                                "header": {
+                                    "alg": "ES256",
+                                    "kid": "agent-key-789"
+                                },
+                                "protected": "eyJuYW1lIjoiQ2FrZSBCYWtlciIsInByb3ZpZGVyIjp7Im5hbWUiOiJBenVyZUFJRm91bmRyeSIsInVybCI6Imh0dHBzOi8vYWkuYXp1cmUuY29tIn0sInVybCI6Imh0dHBzOi8vYXBpLmNha2ViYWtlci5jb20vdjEiLCJ2ZXJzaW9uIjoiMS4wLjAifQ",
+                                "signature": "5oWZfnfwGyz43fPq-9VnCHF0h8KNdxeX3hNfDKcjB5bfm0hqojgsORfoNidXWyJlAi94JuyKPfcNirfdP5jGeg"
+                            }]
                         }
                     },
                     "role": "server"

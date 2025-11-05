@@ -99,6 +99,16 @@ The response is an [`AOSSuccessResponse`](specification.md#51-aossuccessresponse
                     "provider": {
                         "name": "OpenAI",
                         "url": "https://openai.com"
+                    },
+                    "identity": {
+                        "signatures": [{
+                            "header": {
+                                "kid": "agent-key-12345",
+                                "alg": "RS256"
+                            },
+                            "protected": "eyJuYW1lIjoiQ29udGVudCBnZW5lcmF0b3IiLCJwcm92aWRlciI6eyJuYW1lIjoiT3BlbkFJIiwidXJsIjoiaHR0cHM6Ly9vcGVuYWkuY29tIn0sInVybCI6Imh0dHBzOi8vY29va2luZy1hc3Npc3RhbnQub3BlbmFpLmNvbS9hcGkvdjEiLCJ2ZXJzaW9uIjoiMS4wLjAifQ",
+                            "signature": "eyJhbGciOiJFUzI1NiIsImtpZCI6InRlbXAtMzJjNGI5YWYtZjkzYS00YWYyLTkxYmMtMmNmNDQxNmI1NWFiIiwidHlwIjoiSldTIn0.eyJuYW1lIjoiQ29udGVudCBnZW5lcmF0b3IiLCJwcm92aWRlciI6eyJuYW1lIjoiT3BlbkFJIiwidXJsIjoiaHR0cHM6Ly9vcGVuYWkuY29tIn0sInVybCI6Imh0dHBzOi8vY29va2luZy1hc3Npc3RhbnQub3BlbmFpLmNvbS9hcGkvdjEiLCJ2ZXJzaW9uIjoiMS4wLjAifQ.fQ2XQ5PN8dDKoMoW8dllPTiNldrdzxH3G_GOaA4AxtHqqYPkWhHdNJH80BPt2j7VIUBcXl_btOHV0vZplO-0Ww"
+                        }]
                     }
                 },
                 "role": "client"
@@ -107,7 +117,17 @@ The response is an [`AOSSuccessResponse`](specification.md#51-aossuccessresponse
                 "agent": {
                     "url": "https://api.story.com/v1",
                     "name": "Story teller",
-                    "version": "1.0.0"
+                    "version": "1.0.0",
+                    "identity": {
+                        "signatures": [{
+                            "header": {
+                                "alg": "ES256",
+                                "kid": "agent-key-789"
+                            },
+                            "protected": "eyJuYW1lIjoiU3RvcnkgdGVsbGVyIiwicHJvdmlkZXIiOnsibmFtZSI6IkF6dXJlQUlGb3VuZHJ5IiwidXJsIjoiaHR0cHM6Ly9haS5henVyZS5jb20ifSwidXJsIjoiaHR0cHM6Ly9hcGkuc3RvcnkuY29tL3YxIiwidmVyc2lvbiI6IjEuMC4wIn0",
+                            "signature": "1sG5nRS8qcAGYtEPf9BM-mqNGDRY8X1W3eS2QinlC4MHKA0x6s5x1-OuEmkgOjFnO_mBuvp1xZze4PROlRu-bQ"
+                        }]
+                    }
                 },
                 "role": "server"
             }
@@ -213,6 +233,16 @@ The response is an [`AOSSuccessResponse`](specification.md#51-aossuccessresponse
                     "name": "Content generator",
                     "url": "https://cooking-assistant.openai.com/api/v1",
                     "version": "1.0.0",
+                    "identity": {
+                        "signatures": [{
+                            "header": {
+                                "kid": "agent-key-12345",
+                                "alg": "RS256"
+                            },
+                            "protected": "eyJuYW1lIjoiQ29udGVudCBnZW5lcmF0b3IiLCJwcm92aWRlciI6eyJuYW1lIjoiT3BlbkFJIiwidXJsIjoiaHR0cHM6Ly9vcGVuYWkuY29tIn0sInVybCI6Imh0dHBzOi8vY29va2luZy1hc3Npc3RhbnQub3BlbmFpLmNvbS9hcGkvdjEiLCJ2ZXJzaW9uIjoiMS4wLjAifQ",
+                            "signature": "eyJhbGciOiJFUzI1NiIsImtpZCI6InRlbXAtMzJjNGI5YWYtZjkzYS00YWYyLTkxYmMtMmNmNDQxNmI1NWFiIiwidHlwIjoiSldTIn0.eyJuYW1lIjoiQ29udGVudCBnZW5lcmF0b3IiLCJwcm92aWRlciI6eyJuYW1lIjoiT3BlbkFJIiwidXJsIjoiaHR0cHM6Ly9vcGVuYWkuY29tIn0sInVybCI6Imh0dHBzOi8vY29va2luZy1hc3Npc3RhbnQub3BlbmFpLmNvbS9hcGkvdjEiLCJ2ZXJzaW9uIjoiMS4wLjAifQ.fQ2XQ5PN8dDKoMoW8dllPTiNldrdzxH3G_GOaA4AxtHqqYPkWhHdNJH80BPt2j7VIUBcXl_btOHV0vZplO-0Ww"
+                        }]
+                    }
                 },
                 "role": "client"
             },
@@ -225,7 +255,17 @@ The response is an [`AOSSuccessResponse`](specification.md#51-aossuccessresponse
                         "name": "AzureAIFoundry",
                         "url": "https://ai.azure.com"
                     },
-                    "version": "1.0.0"
+                    "version": "1.0.0",
+                    "identity": {
+                        "signatures": [{
+                            "header": {
+                                "alg": "ES256",
+                                "kid": "agent-key-789"
+                            },
+                            "protected": "eyJuYW1lIjoiU3RvcnkgdGVsbGVyIiwicHJvdmlkZXIiOnsibmFtZSI6IkF6dXJlQUlGb3VuZHJ5IiwidXJsIjoiaHR0cHM6Ly9haS5henVyZS5jb20ifSwidXJsIjoiaHR0cHM6Ly9hcGkuc3RvcnkuY29tL3YxIiwidmVyc2lvbiI6IjEuMC4wIn0",
+                            "signature": "1sG5nRS8qcAGYtEPf9BM-mqNGDRY8X1W3eS2QinlC4MHKA0x6s5x1-OuEmkgOjFnO_mBuvp1xZze4PROlRu-bQ"
+                        }]
+                    }
                 },
                 "role": "server"
             }

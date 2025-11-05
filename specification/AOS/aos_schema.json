@@ -49,6 +49,9 @@
                     "version":{
                         "type":"string",
                         "title":"Agent Version"
+                    },
+                    "identity": {
+                        "$ref": "#/$defs/AgentIdentity"
                     }
                 }
             }
@@ -528,6 +531,9 @@
                 "organization": {
                     "$ref": "#/$defs/Organization"
                 },
+                "identity": {
+                    "$ref": "#/$defs/AgentIdentity"
+                },
                 "metadata": {
                     "anyOf": [
                         {
@@ -548,8 +554,37 @@
                 "url",
                 "instructions",
                 "version",
-                "provider"
+                "provider",
+                "identity"
             ]
+        },
+        "AgentIdentity": {
+            "properties": {
+                "signatures": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/AgentSignature"
+                    }
+                },
+                "metadata": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": {},
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Metadata"
+                }
+            },
+            "required": [
+                "signatures"
+            ],
+            "type": "object",
+            "title": "AgentIdentity"
         },
         "AgentProvider": {
             "properties": {
@@ -580,6 +615,30 @@
                 "url"
             ],
             "title": "AgentProvider",
+            "type": "object"
+        },
+        "AgentSignature": {
+            "description": "AgentSignature represents a JWS signature of an Agent.\nThis follows the JSON format of an RFC 7515 JSON Web Signature (JWS).",
+            "properties": {
+                "header": {
+                    "additionalProperties": {},
+                    "description": "The unprotected JWS header values.",
+                    "type": "object"
+                },
+                "protected": {
+                    "description": "The protected JWS header for the signature. This is a Base64url-encoded\nJSON object, as per RFC 7515.",
+                    "type": "string"
+                },
+                "signature": {
+                    "description": "The computed signature, Base64url-encoded.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "header",
+                "protected",
+                "signature"
+            ],
             "type": "object"
         },
         "AgentTrigger": {
@@ -975,6 +1034,20 @@
                 "uri"
             ],
             "type": "object"
+        },
+        "Identity": {
+            "oneOf": [
+                {
+                    "$ref": "#/$defs/User"
+                },
+                {
+                    "$ref": "#/$defs/MachineIdentity"
+                },
+                {
+                    "$ref": "#/$defs/AgentIdentity"
+                }
+            ],
+            "title": "Identity"
         },
         "InternalError": {
             "properties": {
@@ -1414,6 +1487,39 @@
             "required": [
                 "id",
                 "content"
+            ]
+        },
+        "MachineIdentity": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The unique identifier of the application or service"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the application or service"
+                },
+                "organization": {
+                    "$ref": "#/$defs/Organization",
+                    "description": "The owning organization of the application or service"
+                },
+                "metadata": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": {},
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Metadata"
+                }
+            },
+            "required": [
+                "id"
             ]
         },
         "MCPMessage": {
@@ -2123,8 +2229,8 @@
                     "format": "date-time",
                     "description": "ISO 8601 timestamp of the request"
                 },
-                "user": {
-                    "$ref": "#/$defs/User"
+                "identity": {
+                    "$ref": "#/$defs/Identity"
                 }
             },
             "additionalProperties": {
@@ -2143,7 +2249,8 @@
                 "session",
                 "turnId",
                 "stepId",
-                "timestamp"
+                "timestamp",
+                "identity"
             ]
         },
         "TextPart": {

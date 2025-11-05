@@ -32,7 +32,6 @@ These objects define the structure of data exchanged within the JSON-RPC methods
 ### 3.1. `Agent` Object
 
 
-
 | Field Name                          | Type                                                               | Required | Description                                                                                                                                 |
 | :---------------------------------- | :----------------------------------------------------------------- | :------- | :------------------------------------------------------------------------------------------------------------------------------------------ |
 | `name`                              | `string`                                                           | Yes      | Human-readable name of the agent.                                                                                                           |
@@ -41,12 +40,15 @@ These objects define the structure of data exchanged within the JSON-RPC methods
 | `instructions`                       | `string`                                                           | Yes      | Agent internal instrucions, known as system prompt.                                                             |
 | `version`                           | `string`                                                           | Yes      | Agent version string.                                                                                                 |
 | `provider`                          | [`AgentProvider`](#311-agentprovider-object)                       | Yes       | Information about the agent's provider.                                                                                                     |
+| `identity`                   | [`AgentIdentity`](#318-agentidentity-object) | Yes       | Identity of the agent. |
 | `model`                           | [`Model`](#312-model-object)                                                           | No      | Agent's underlying LLM.                                                                                                 |
 | `tools`                  | [`ToolDefinition`](#32-tooldefinition-object)[]                                                         | No       | Available tools.                                                                                          |
 | `mcpServers`                      | [`MCPServer`](#314-mcpserver-object)[]               | No      | Available MCP servers.                                                   |
 | `resources`                      | [`Resource`](#315-resource-object)[]               | No      | Available resources.                                                   |
 | `organization`                   | [`Organization`](#311-organization-object) | No       | Organization / entity that agent belongs to. |
 | `metadata`                   | `Record<string, any>` | No       | Arbitrary key-value metadata associated with the agent. |
+
+
 
 #### 3.1.1. `AgentProvider` Object
 
@@ -295,7 +297,7 @@ Holds information about the context of agent step
 | `turnId`            | `string` | Yes      | A unique turn Id in the current session.                          |
 | `stepId`                   | `string` | Yes       | A unique step Id in the current turn. |
 | `timestamp`                   | `string` (ISO 8601) | Yes       | Timestamp (UTC recommended) when this step was recorded. |
-| `user`                   | [`User`](#310-user-object) | No       | The user involved with the agent interaction. Exists if the agent was triggered by a user prompt. |
+| `identity`                   | [`Identity`](#317-identity-object) | Yes       | The identity interacting or triggering the agent. |
 
 
 ### 3.9. `Session` Object
@@ -410,15 +412,19 @@ Defines a single argument / input for the tool.
 | `id`  | `string`  | No      | The id of the argument. It is correlated with argument's id as specified in [`ToolArgumentDefinition`](#321-toolargumentdefinition-object)                                                                   |
 | `value`                              | `string`\| `number` \| `boolean` \| `object` \| `array` \| `null`                                                           | Yes      | The argument's value.                                                                                                           |
 
+
 ### 3.16.  `A2AContext` Object
 Context for A2A requests and responses
+
 | Field Name | Type      | Required | Description                                                                                                  |
 | :--------- | :-------- | :------- | :----------------------------------------------------------------------------------------------------------- |
 | `from`     | [`A2AFullAgentContext`](#3161-a2adullagentcontext-object) \| [`A2APartialAgentContext`](#3162-a2apartialagentcontext-object) | Yes      | Details of the agent that is sending the A2A message (request or response). `A2AFullAgentContext` when observed agent is the client, `A2APartialAgentContext` when observed agent is the server.  |
 | `to`  | [`A2AFullAgentContext`](#3161-a2afullagentcontext-object) \| [`A2APartialAgentContext`](#3162-a2apartialagentcontext-object)  | Yes      | Details of the agent that is receiving the A2A message (request or response). `A2AFullAgentContext` when observed agent is the server, `A2APartialAgentContext` when observed agent is the client.                                                                    |
 
+
 #### 3.16.1.  `A2AFullAgentContext` Object
 Object representing the sender agent in the A2A protocol communication
+
 | Field Name | Type      | Required | Description                                                                                                  |
 | :--------- | :-------- | :------- | :----------------------------------------------------------------------------------------------------------- |
 | `agent`     | [`Agent`](#31-agent-object) | Yes      | Details of the agent that is sending the A2A message (either request or response).  |
@@ -433,6 +439,7 @@ Object representing the receiver agent in the A2A protocol communication
 | `agent`     | [`A2APartialAgentDetails`](#3163-a2apartialagentdetails-object) | Yes      | Details of the agent that is receiving the A2A message (either request or response).  |
 | `role`  | `"client"` \| `"server"` (literal)  | Yes      | Role of the agent as defined in A2A protocol terminology. `"client"` for agent that initializes tasks and requests, `"server"` for agent that fulfills tasks and requests.   
 
+
 #### 3.16.3. `A2APartialAgentDetails` Object
 Object representing the receiver agent in the A2A protocol communication
 
@@ -440,7 +447,46 @@ Object representing the receiver agent in the A2A protocol communication
 | :--------- | :-------- | :------- | :----------------------------------------------------------------------------------------------------------- |
 | `url`     | `string` | Yes      | A URL to the address the receiving agent is hosted at as it appears in its [AgentCard](https://google-a2a.github.io/A2A/latest/specification/#55-agentcard-object-structure).  |
 | `name`  | `string` | Yes      | The name of the receiving agent as it appears in its AgentCard.   
-| `version`  |  `string`  | Yes      | The version of the receiving agent as it appeard in its AgentCard.   
+| `version`  |  `string`  | Yes      | The version of the receiving agent as it appeard in its AgentCard. 
+| `identity`                   | [`AgentIdentity`](#318-agentidentity-object) | Yes       | Identity of the agent.
+
+
+### 3.17. `Identity` Object
+Object representing identity in the context. This is a union object that can be one of the following:
+- [`User`](#310-user-object)
+- [`MachineIdentity`]()
+- [`AgentIdentity`](#318-agentidentity-object)
+
+
+#### 3.17.1 `MachineIdentity` Object
+Object representing a machine identity
+
+| Field Name | Type      | Required | Description                                                                                                  |
+| :--------- | :-------- | :------- | :----------------------------------------------------------------------------------------------------------- |
+| `id`     | `striung` | Yes      | The unique identifier of the application or service. |
+| `name`     | `string`| Yes      | The name of the application or service. |
+| `organization`     | [`Organization`](#311-organization-object)[] | Yes      | The owning organization of the application or service. |
+| `metadata`                   | `Record<string, any>` | No       | Arbitrary key-value metadata associated with the identity. |
+
+
+### 3.18. `AgentIdentity` Object
+Object representing an agent identity
+
+| Field Name | Type      | Required | Description                                                                                                  |
+| :--------- | :-------- | :------- | :----------------------------------------------------------------------------------------------------------- |
+| `signatures`     | [`AgentSignature`](#3181-agentsignature-object)[] | Yes      | Array of JSON Web Signatures computed for the agent. |
+| `metadata`                   | `Record<string, any>` | No       | Arbitrary key-value metadata associated with the identity. |
+
+
+
+#### 3.18.1.  `AgentSignature` Object
+Object representing an agent signature as an agent identifier
+
+| Field Name | Type      | Required | Description                                                                                                  |
+| :--------- | :-------- | :------- | :----------------------------------------------------------------------------------------------------------- |
+| `header`     | `string` | Yes      | The unprotected JWS header values. |
+| `protected`     | `string` | Yes      | The protected JWS header for the signature. This is a Base64url-encoded\nJSON object, as per RFC 7515. |
+| `signature`     | `string` | Yes      | The computed signature, Base64url-encoded. |
 
 
 ## 4. Protocol RPC Methods
