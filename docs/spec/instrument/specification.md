@@ -97,6 +97,7 @@ Information about the available MCP servers.
 | :---------------------------------- | :----------------------------------------------------------------- | :------- | :------------------------------------------------------------------------------------------------------------------------------------------ |
 | `name`                              | `string`                                                           | Yes      | Name of the MCP server.                                                                                                           |
 | `version`                   |  `string`  | Yes       | Version of the MCP server. |
+| `url`                   |  `string`  | Yes       | URL of the MCP server. |
 
 #### 3.1.5. `Resource` Object
 
