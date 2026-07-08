@@ -2,6 +2,9 @@
 
 **Version:** `0.1.0`
 
+**Authors:**
+- Lana Salameh ([@lanasalameh1](https://github.com/lanasalameh1))
+
 ## 1. Core concepts
 - **Guardian Agent**: An agent that monitors other agents behavior for anomalous and risky decisions.
 - **Agent**: An agent that implements AOS-compliant HTTP endpoints, sending data and providing visibility into its plans, reasoning and context. Also understands AOS responses and enforces results.
